@@ -16,6 +16,17 @@ over_nose_left_landmarks = [6, 4, 305]
 over_nose_right_landmarks = [6, 4, 75]
 under_nose_landmarks = [4, 75, 305]
 mouth_landmarks = [80, 81, 82, 13, 312, 311, 310, 402, 317, 14, 87, 178]
+# left_eyebrows_landmarks = [46, 53, 52, 65, 55, 70, 63, 105, 66, 107]
+# right_eyebrows_landmarks = [276, 283, 282, 295, 285, 300, 293, 334, 296, 336]
+right_eyebrows_landmarks = [70,63,105,66,107]
+left_eyebrows_landmarks = [336,296,334,293,300]
+right_iris_landmarks = [469, 470, 471, 472]
+left_iris_landmarks = [474, 475, 476, 477]
+right_upper_eyelid_landmarks = [130, 53, 55, 243, 157, 158, 159, 160, 161]
+right_lower_eyelid_landmarks = [130, 229, 231, 155, 153, 145, 144, 163, 7]
+left_upper_eyelid_landmarks = [463, 398, 384, 385, 386, 387, 388, 359, 283, 285]
+left_lower_eyelid_landmarks = [463, 381, 380, 374, 373, 390, 249, 449, 452]
+
 
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
@@ -62,6 +73,14 @@ while True:
         over_nose_left_list = []
         over_nose_right_list = []
         mouth_list = []
+        left_eyebrows_list = []
+        right_eyebrows_list = []
+        left_iris_list = []
+        right_iris_list = []
+        right_upper_eyelid_list = []
+        right_lower_eyelid_list = []
+        left_upper_eyelid_list = []
+        left_lower_eyelid_list = []
         
         # getting the points
         for facial_landmarks in results.multi_face_landmarks:
@@ -102,6 +121,39 @@ while True:
                 temp_pt = facial_landmarks.landmark[i]
                 cx, cy = int(temp_pt.x * w), int(temp_pt.y * h)
                 over_nose_right_list.append([cx, cy])
+            for i in left_eyebrows_landmarks:
+                temp_pt = facial_landmarks.landmark[i]
+                cx, cy = int(temp_pt.x * w), int(temp_pt.y * h)
+                left_eyebrows_list.append([cx, cy])
+            for i in right_eyebrows_landmarks:
+                temp_pt = facial_landmarks.landmark[i]
+                cx, cy = int(temp_pt.x * w), int(temp_pt.y * h)
+                right_eyebrows_list.append([cx, cy])
+            for i in right_iris_landmarks:
+                temp_pt = facial_landmarks.landmark[i]
+                cx, cy = int(temp_pt.x * w), int(temp_pt.y * h)
+                right_iris_list.append([cx, cy])
+            for i in left_iris_landmarks:
+                temp_pt = facial_landmarks.landmark[i]
+                cx, cy = int(temp_pt.x * w), int(temp_pt.y * h)
+                left_iris_list.append([cx, cy])
+            for i in right_upper_eyelid_landmarks:
+                temp_pt = facial_landmarks.landmark[i]
+                cx, cy = int(temp_pt.x * w), int(temp_pt.y * h)
+                right_upper_eyelid_list.append([cx, cy])
+            for i in right_lower_eyelid_landmarks:
+                temp_pt = facial_landmarks.landmark[i]
+                cx, cy = int(temp_pt.x * w), int(temp_pt.y * h)
+                right_lower_eyelid_list.append([cx, cy])
+            for i in left_upper_eyelid_landmarks:
+                temp_pt = facial_landmarks.landmark[i]
+                cx, cy = int(temp_pt.x * w), int(temp_pt.y * h)
+                left_upper_eyelid_list.append([cx, cy])
+            for i in left_lower_eyelid_landmarks:
+                temp_pt = facial_landmarks.landmark[i]
+                cx, cy = int(temp_pt.x * w), int(temp_pt.y * h)
+                left_lower_eyelid_list.append([cx, cy])
+                
             '''
             for i in mouth_landmarks:
                temp_pt = facial_landmarks.landmark[i]
@@ -129,14 +181,14 @@ while True:
             mouth_list.append([x1, y1])
             
         # face print
-        pygame.draw.polygon(screen, (0, 0, 0), base_face_list)
-        pygame.draw.polygon(screen, (0, 0, 0), over_face_left_list)
-        pygame.draw.polygon(screen, (0, 0, 0), over_face_right_list)
-        pygame.draw.polygon(screen, (0, 0, 0), over_face_list)
+        pygame.draw.polygon(screen, (0, 0, 255), base_face_list)
+        pygame.draw.polygon(screen, (0, 0, 255), over_face_left_list)
+        pygame.draw.polygon(screen, (0, 0, 255), over_face_right_list)
+        pygame.draw.polygon(screen, (0, 0, 255), over_face_list)
         
         # nose print
-        pygame.draw.polygon(screen, (0, 0, 255), over_nose_left_list)
-        pygame.draw.polygon(screen, (0, 0, 255), over_nose_right_list)
+        pygame.draw.polygon(screen, (0, 100, 255), over_nose_left_list)
+        pygame.draw.polygon(screen, (0, 100, 255), over_nose_right_list)
         pygame.draw.polygon(screen, (50, 50, 50), under_nose_list)
         
         # mouth print
@@ -145,6 +197,21 @@ while True:
         # eye print
         pygame.draw.polygon(screen, (255, 255, 255), right_eye_list)
         pygame.draw.polygon(screen, (255, 255, 255), left_eye_list)
+        
+        # iris print 
+        pygame.draw.polygon(screen, (0, 0, 0), right_iris_list)
+        pygame.draw.polygon(screen, (0, 0, 0), left_iris_list)
+        
+        # eyelid print
+        pygame.draw.polygon(screen, (0, 0, 0), right_upper_eyelid_list)
+        pygame.draw.polygon(screen, (0, 0, 0), right_lower_eyelid_list)
+        pygame.draw.polygon(screen, (0, 0, 0), left_upper_eyelid_list)
+        pygame.draw.polygon(screen, (0, 0, 0), left_lower_eyelid_list)
+        
+        # eyebrows print
+        pygame.draw.polygon(screen, (255, 255, 255), right_eyebrows_list)
+        pygame.draw.polygon(screen, (255, 255, 255), left_eyebrows_list)
+        
         
         # update screen
         pygame.display.update()
