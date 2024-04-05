@@ -1,3 +1,4 @@
+# importing all the required modules
 import pygame
 import sys
 import math
@@ -5,6 +6,16 @@ import math
 import mediapipe as mp
 import cv2
 
+# defining colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+SKIN_BROWN = (135, 79, 92)
+SKIN_WHITE = (255, 195, 170)
+
+# all the landmark information
 right_eye_landmarks = [33, 246, 161, 160, 159, 158, 157, 173, 133, 155, 154, 153, 145, 144, 163, 7]
 left_eye_landmarks = [362, 398, 384, 385, 386, 387, 388, 466, 263, 249, 390, 373, 374, 380, 381, 382]
 base_face_landmarks = [103, 67, 109, 10, 338,297, 332, 372, 352, 433, 421, 201, 213, 123, 143] # , 432, 212
@@ -27,7 +38,7 @@ right_lower_eyelid_landmarks = [130, 229, 231, 155, 153, 145, 144, 163, 7]
 left_upper_eyelid_landmarks = [463, 398, 384, 385, 386, 387, 388, 359, 283, 285]
 left_lower_eyelid_landmarks = [463, 381, 380, 374, 373, 390, 249, 449, 452]
 
-
+# initializing mediapipe solutions
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_face_detection = mp.solutions.face_mesh
@@ -37,6 +48,7 @@ mp_face_mesh = mp_face_detection.FaceMesh(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
+# start web camera capture
 cap = cv2.VideoCapture(0)
 success , img = cap.read()
 
@@ -46,7 +58,7 @@ screen = pygame.display.set_mode((w, h))
 fps_clock = pygame.time.Clock()
 
 while True:
-    
+    # checking for events
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             pygame.quit()
@@ -54,13 +66,16 @@ while True:
             cv2.destroyAllWindows()
             sys.exit()
             break
+    # converting bgr image to rgb image
     success, img = cap.read()
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     
+    # processing the image using mediapipe
     results = mp_face_mesh.process(img_rgb)
     
     if results.multi_face_landmarks: 
-        screen.fill((0, 255, 0))
+        # background color
+        screen.fill(GREEN)
         
         # required points
         left_eye_list = []
@@ -181,36 +196,36 @@ while True:
             mouth_list.append([x1, y1])
             
         # face print
-        pygame.draw.polygon(screen, (0, 0, 255), base_face_list)
-        pygame.draw.polygon(screen, (0, 0, 255), over_face_left_list)
-        pygame.draw.polygon(screen, (0, 0, 255), over_face_right_list)
-        pygame.draw.polygon(screen, (0, 0, 255), over_face_list)
+        pygame.draw.polygon(screen, SKIN_WHITE, base_face_list)
+        pygame.draw.polygon(screen, SKIN_WHITE, over_face_left_list)
+        pygame.draw.polygon(screen, SKIN_WHITE, over_face_right_list)
+        pygame.draw.polygon(screen, SKIN_WHITE, over_face_list)
         
         # nose print
-        pygame.draw.polygon(screen, (0, 100, 255), over_nose_left_list)
-        pygame.draw.polygon(screen, (0, 100, 255), over_nose_right_list)
-        pygame.draw.polygon(screen, (50, 50, 50), under_nose_list)
+        pygame.draw.polygon(screen, (SKIN_BROWN[0]+100, SKIN_BROWN[1]+100, SKIN_BROWN[2]+100), over_nose_left_list) # (0, 100, 255)
+        pygame.draw.polygon(screen, (SKIN_BROWN[0]+100, SKIN_BROWN[1]+100, SKIN_BROWN[2]+100), over_nose_right_list) # (0, 100, 255)
+        pygame.draw.polygon(screen, SKIN_BROWN, under_nose_list) # (50, 50, 50)
         
         # mouth print
-        pygame.draw.polygon(screen, (255, 0, 0), mouth_list)
+        pygame.draw.polygon(screen, RED, mouth_list)
         
         # eye print
-        pygame.draw.polygon(screen, (255, 255, 255), right_eye_list)
-        pygame.draw.polygon(screen, (255, 255, 255), left_eye_list)
+        pygame.draw.polygon(screen, WHITE, right_eye_list)
+        pygame.draw.polygon(screen, WHITE, left_eye_list)
         
         # iris print 
-        pygame.draw.polygon(screen, (0, 0, 0), right_iris_list)
-        pygame.draw.polygon(screen, (0, 0, 0), left_iris_list)
+        pygame.draw.polygon(screen, BLACK, right_iris_list)
+        pygame.draw.polygon(screen, BLACK, left_iris_list)
         
         # eyelid print
-        pygame.draw.polygon(screen, (0, 0, 0), right_upper_eyelid_list)
-        pygame.draw.polygon(screen, (0, 0, 0), right_lower_eyelid_list)
-        pygame.draw.polygon(screen, (0, 0, 0), left_upper_eyelid_list)
-        pygame.draw.polygon(screen, (0, 0, 0), left_lower_eyelid_list)
+        pygame.draw.polygon(screen, SKIN_WHITE, right_upper_eyelid_list)
+        pygame.draw.polygon(screen, SKIN_WHITE, right_lower_eyelid_list)
+        pygame.draw.polygon(screen, SKIN_WHITE, left_upper_eyelid_list)
+        pygame.draw.polygon(screen, SKIN_WHITE, left_lower_eyelid_list)
         
         # eyebrows print
-        pygame.draw.polygon(screen, (255, 255, 255), right_eyebrows_list)
-        pygame.draw.polygon(screen, (255, 255, 255), left_eyebrows_list)
+        pygame.draw.polygon(screen, BLACK, right_eyebrows_list)
+        pygame.draw.polygon(screen, BLACK, left_eyebrows_list)
         
         
         # update screen
