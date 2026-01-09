@@ -121,5 +121,6 @@ The final outcome of this repository is preserved in the **"Old Version"** direc
 ---
 
 **Author:** Spondan Bandyopadhyay
+**Interests:** Computer Vision, Graphics, AI Systems
 
 ---
