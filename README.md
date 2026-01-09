@@ -9,6 +9,6 @@ Test Model: a test program to check if the landmarks are showing up or not.
 <br>
 Prototype Model: Used pygame to draw facial landmarks to create a prototype face in real time- FaceAvatar.py
 <br><br>
-## Current Status: 
-Currently working to Transfer Landmark Data in realtime to Unreal Engine through sockets for Realtime Processing and Avatar puppeteering.
+## Updated version: 
+This project is an older implementation of the outcome I wanted. This is my latest attempt in makeing a Virtual Avatar system [Virtual Skull Avatar](https://github.com/SpondanB/Virtual-Skull-Avatar). The final result of this repository is added in the "Old version" directory in the new repository.
 <br><br>
